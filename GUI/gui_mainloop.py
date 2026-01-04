@@ -592,7 +592,8 @@ class DHAX_GUI:
 					dpg.add_separator()
 					dpg.add_checkbox(label="Enable FOV Changer", default_value=self.config["EnableFovChanger"], callback=lambda s, d: self.config.update({"EnableFovChanger": d}))
 					dpg.add_slider_int(label="Set FOV", default_value=self.config["FovChangeSize"], min_value=50, max_value=170, callback=lambda s, d: self.config.update({"FovChangeSize": d}))
-
+					dpg.add_separator()
+					dpg.add_checkbox(label="Enable Spectator List", default_value=self.config["EnableSpectatorList"], callback=lambda s, d: self.config.update({"EnableSpectatorList": d}))
 
 def run_gui(Options):
 	gui = DHAX_GUI(Options)

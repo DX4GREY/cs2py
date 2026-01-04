@@ -47,7 +47,7 @@ class Offset:
 
 	m_hPawn: int
 	m_pObserverServices: int
-	m_hObserverTarget: int		
+	m_hObserverTarget: int
 
 class Client:
 	def __init__(self, manual_dump=False):
