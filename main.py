@@ -109,6 +109,7 @@ if __name__ == "__main__":
 	if not ClientModuleAddress:
 		print("Timeout: client.dll not found within 60s")
 		os._exit(1)
+
 	LoadConfig()
 
 	Manager = multiprocessing.Manager()
