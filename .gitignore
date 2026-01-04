@@ -52,3 +52,5 @@ htmlcov/
 settings.json
 launch.json
 main.dist/certifi/cacert.pem
+dhax.dist/
+dhax.onefile-build/
