@@ -9,50 +9,43 @@ SCREEN_HEIGHT = win32api.GetSystemMetrics(1)
 
 GAME_OFFSETS = offsets.get_offsets()
 
-SAVE_FILE = os.path.join(os.getcwd(), "settings.json")
+SAVE_FILE = os.path.join("C:\\DHax", "settings.json")
 
 CHEAT_SETTINGS = {
-    "EnableAntiFlashbang": False,
+    "EnableAntiFlashbang": True,
     "EnableFovChanger": False,
     "FovChangeSize": 90,
-	
     "EnableAimbot": True,
-	"EnableAimbotPrediction": True,
-    "EnableAimbotTeamCheck": False,
+    "EnableAimbotPrediction": True,
+    "EnableAimbotTeamCheck": True,
     "EnableAimbotVisibilityCheck": False,
-    "AimbotFOV": 75,
+    "AimbotFOV": 50,
     "AimbotSmoothing": 1,
-    "AimPosition": "Head",
-    "AimbotKey": 6,
-	
-    "EnableRecoilControl": False,
+    "AimPosition": "Neck",
+    "AimbotKey": 17,
+    "EnableRecoilControl": True,
     "RecoilControlSmoothing": 1.0,
-
-    "EnableTriggerbot": True,
-    "EnableTriggerbotKeyCheck": True,
+    "EnableTriggerbot": False,
+    "EnableTriggerbotKeyCheck": False,
     "TriggerbotKey": 17,
     "EnableTriggerbotTeamCheck": False,
-
     "EnableESPDistanceRendering": True,
-    "EnableESPTeamCheck": False,
+    "EnableESPTeamCheck": True,
     "EnableESPSkeletonRendering": True,
     "EnableESPBoxRendering": False,
     "EnableESPTracerRendering": False,
     "EnableESPNameText": False,
     "EnableESPHealthBarRendering": True,
-    "EnableESPHealthText": False,
+    "EnableESPHealthText": True,
     "EnableESPDistanceText": False,
-    "EnableFOVCircle": True,
-
+    "EnableFOVCircle": False,
     "EnableESPBombTimer": False,
-    
-    "CT_color": "#0000FF",
-    "T_color": "#FF0000",
+    "CT_color": "#000000",
+    "T_color": "#FFFFFF",
     "FOV_color": "#FFFFFF",
-
     "EnableBhop": False,
-
-    "EnableDiscordRPC": True,
+    "EnableDiscordRPC": False,
+    "EnableSpectatorList": False
 }
 
 

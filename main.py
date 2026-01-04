@@ -1,5 +1,5 @@
 import globals
-from functions import memfuncs, autoupdate
+from functions import memfuncs
 
 from features import aimbot
 from features import combined
@@ -15,10 +15,7 @@ from GUI import gui_mainloop
 from GUI import gui_util
 
 import multiprocessing
-import threading
-
-import serial
-import serial.tools.list_ports
+import threading, time
 
 import win32con, win32process, win32api
 import keyboard, os, json
@@ -66,10 +63,12 @@ class ManagedConfig:
 		return repr(self._dict)
 	
 def SaveConfig(options):
+	os.makedirs(os.path.dirname(globals.SAVE_FILE), exist_ok=True)
 	with open(globals.SAVE_FILE, 'w') as fp:
 		json.dump(dict(options), fp, indent=4)
 
 def LoadConfig():
+	os.makedirs(os.path.dirname(globals.SAVE_FILE), exist_ok=True)
 	if not os.path.exists(globals.SAVE_FILE):
 		with open(globals.SAVE_FILE, "w") as fp:
 			json.dump(globals.CHEAT_SETTINGS, fp, indent=4)
@@ -78,28 +77,38 @@ def LoadConfig():
 			globals.CHEAT_SETTINGS = json.load(fp)
 
 if __name__ == "__main__":
-
-	print("          ____              \n  ___ ___|___ \\ _ __  _   _ \n / __/ __| __) | '_ \\| | | |\n| (__\\__ \\/ __/| |_) | |_| |\n \\___|___/_____| .__/ \\__, |\n               |_|    |___/ \n\n             - By GsDeluxe")
-	
-	autoupdate.check_and_update()
-
 	win32process.SetPriorityClass(win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, win32api.GetCurrentProcessId()), win32process.HIGH_PRIORITY_CLASS)
 	multiprocessing.freeze_support()
+	ARDUINO_HANDLE = None
+	timeout = 120.0
+	start_time = time.time()
 
-	COM_PORT = None
-	use_arduino = input("Use Arduino? [Y/N]: ")
-	if use_arduino.upper() == "Y":
-		for index, port in enumerate([port.device for port in serial.tools.list_ports.comports()]):
-			print(f"[{index}] {port}")
-		COM_PORT = input("Select COM Port: ")
-
-		ARDUINO_HANDLE = serial.Serial([port.device for port in serial.tools.list_ports.comports()][int(COM_PORT)], 9600)
-	else:
-		ARDUINO_HANDLE = None
-
-	ProcessObject = memfuncs.GetProcess("cs2.exe")
-	ClientModuleAddress = memfuncs.GetModuleBase(modulename="client.dll", process_object=ProcessObject)
-
+	ProcessObject = None
+	print("Waiting for cs2.exe...")
+	while time.time() - start_time < timeout:
+		try:
+			ProcessObject = memfuncs.GetProcess("cs2.exe")
+		except Exception:
+			ProcessObject = None
+		if ProcessObject:
+			break
+		time.sleep(0.5)
+	if not ProcessObject:
+		print("Timeout: cs2.exe not found within 60s")
+		os._exit(1)
+	ClientModuleAddress = None
+	print("Waiting for module handle...")
+	while time.time() - start_time < timeout:
+		try:
+			ClientModuleAddress = memfuncs.GetModuleBase(modulename="client.dll", process_object=ProcessObject)
+		except Exception:
+			ClientModuleAddress = None
+		if ClientModuleAddress:
+			break
+		time.sleep(0.5)
+	if not ClientModuleAddress:
+		print("Timeout: client.dll not found within 60s")
+		os._exit(1)
 	LoadConfig()
 
 	Manager = multiprocessing.Manager()

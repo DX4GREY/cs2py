@@ -44,8 +44,10 @@ class Offset:
 	
 	m_bSpottedByMask: int
 	m_vecVelocity: int
-	
 
+	m_hPawn: int
+	m_pObserverServices: int
+	m_hObserverTarget: int		
 
 class Client:
 	def __init__(self, manual_dump=False):
@@ -87,8 +89,8 @@ class Client:
 		try:
 			return self.clientdll["client.dll"]['classes'][a]['fields'][b]
 		except KeyError as e:
-			print(f"Error with getting offset for {a} -> {b}: {e}")
-			exit()
+			print(f"Warning: offset for {a} -> {b} not found: {e}")
+			return 0
 
 	def button(self, a):
 		return self._get_value_from_dict(self.buttons, ['client.dll', a], f'Button {a} not found.')
@@ -99,8 +101,8 @@ class Client:
 				data = data[key]
 			return data
 		except KeyError:
-			print(error_message)
-			exit()
+			print(f"Warning: {error_message}")
+			return 0
 
 
 def get_offsets() -> Offset:
@@ -143,6 +145,10 @@ def get_offsets() -> Offset:
 		
 		m_bSpottedByMask = oc.get("EntitySpottedState_t", "m_bSpottedByMask"),
 		m_vecVelocity = oc.get("C_BaseEntity", "m_vecVelocity"),
+
+		m_hPawn = oc.get("CBasePlayerController", "m_hPawn"),
+		m_pObserverServices = oc.get("C_BasePlayerPawn", "m_pObserverServices"),
+		m_hObserverTarget = oc.get("CPlayer_ObserverServices", "m_hObserverTarget"),
 		
 	)
 	return offsets_obj

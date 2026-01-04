@@ -339,7 +339,7 @@ KeyCodes = [
 	0xA5
 ]
 
-class CS2PY_GUI:
+class DHAX_GUI:
 	def __init__(self, config):
 		self.n = 0
 		self.ui_dragging = False
@@ -364,7 +364,7 @@ class CS2PY_GUI:
 	def init_context(self):
 		dpg.create_context()
 		self.viewport = dpg.create_viewport(
-			title="cs2py",
+			title="DHax | Counter Strike 2",
 			width=self.viewport_width,
 			height=self.viewport_height,
 			vsync=True,
@@ -533,10 +533,8 @@ class CS2PY_GUI:
 		dpg.destroy_context()
 
 	def build_ui(self):
-		with dpg.window(label="cs2py v2.0", width=self.viewport_width, height=self.viewport_height, no_move=True, no_resize=True, no_close=True, no_collapse=True, tag="cs2py_dpg_window"):
-			dpg.add_text("INS Show/Hide Menu")
-			dpg.add_text("END To Quit Program")
-			dpg.add_text("HOME For Streamproof")
+		with dpg.window(label="DHax | Counter Strike 2", width=self.viewport_width, height=self.viewport_height, no_move=True, no_resize=True, no_close=True, no_collapse=True, tag="dhax_main_window"):
+			dpg.add_text("[INS] Show/Hide Menu | [HOME] For Streamproof | [END] To Quit Program")
 			dpg.add_separator()
 
 			with dpg.tab_bar():
@@ -597,5 +595,5 @@ class CS2PY_GUI:
 
 
 def run_gui(Options):
-	gui = CS2PY_GUI(Options)
+	gui = DHAX_GUI(Options)
 	gui.run()
