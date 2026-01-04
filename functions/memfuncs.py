@@ -181,9 +181,9 @@ def get_spectator_list(proc, clientBaseAddress, Offsets, local_controller_addres
                 if not pawn:
                     continue
 
-                # read observer services from pawn
+                # read observer services from controller
                 try:
-                    observer_services = ProcMemHandler.ReadPointer(proc, pawn + Offsets.offset.m_pObserverServices)
+                    observer_services = ProcMemHandler.ReadPointer(proc, controller + Offsets.offset.m_pObserverServices)
                 except Exception:
                     observer_services = 0
                 if not observer_services:
@@ -205,8 +205,8 @@ def get_spectator_list(proc, clientBaseAddress, Offsets, local_controller_addres
                 if not target_controller:
                     continue
 
-                # if the target controller/pawn equals our local pawn, this controller is spectating us
-                if target_controller == local_pawn:
+                # if the target controller/pawn equals our local controller, this controller is spectating us
+                if target_controller == local_controller_address:
                     # get name
                     try:
                         name_addr = ProcMemHandler.ReadPointer(proc, controller + Offsets.offset.m_sSanitizedPlayerName)
