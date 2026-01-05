@@ -29,6 +29,7 @@ python main.py
 - [x] Discord RPC  
 - [x] Color Customization  
 - [x] Auto Save Config
+- [x] Spectator Lists
 
 ## Credits
 
