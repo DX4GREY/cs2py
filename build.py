@@ -45,4 +45,7 @@ print("[+] Starting Nuitka build...")
 print(" ".join(cmd))
 subprocess.run(cmd, check=True)
 print("[✓] Build finished successfully")
-print(f"[i] Output located in ./{OUT}/")
+# Check executable done build or not
+exe_path = os.path.join(OUT, "dhax.exe")
+if os.path.exists(exe_path):
+    print(f"[✓] Executable created at: {exe_path}")
