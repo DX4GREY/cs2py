@@ -48,6 +48,8 @@ class Offset:
 	m_hPawn: int
 	m_pObserverServices: int
 	m_hObserverTarget: int
+	m_iszPlayerName: int
+	m_iObserverMode: int
 
 class Client:
 	def __init__(self, manual_dump=False):
@@ -149,7 +151,8 @@ def get_offsets() -> Offset:
 		m_hPawn = oc.get("CBasePlayerController", "m_hPawn"),
 		m_pObserverServices = oc.get("C_BasePlayerPawn", "m_pObserverServices"),
 		m_hObserverTarget = oc.get("CPlayer_ObserverServices", "m_hObserverTarget"),
-		
+		m_iszPlayerName = oc.get("CBasePlayerController", "m_iszPlayerName"),
+		m_iObserverMode = oc.get("CPlayer_ObserverServices", "m_iObserverMode"),
 	)
 	return offsets_obj
 

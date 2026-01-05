@@ -10,6 +10,7 @@ from features import bombtimer
 from features import fovchanger
 from features import bhop
 from features import discodrpc
+from features.spectlist import SpectatorList
 
 from GUI import gui_mainloop
 from GUI import gui_util
@@ -141,8 +142,10 @@ if __name__ == "__main__":
 	discord_rpc_proc.daemon = True
 	discord_rpc_proc.start()
 
+	SharedSpectatorList = SpectatorList()
+
 	while esp.pme.overlay_loop():
-		esp.ESP_Update(ProcessObject, ClientModuleAddress, SharedOptions, SharedOffsets, SharedBombState)
+		esp.ESP_Update(ProcessObject, ClientModuleAddress, SharedOptions, SharedOffsets, SharedBombState, SharedSpectatorList)
 
 		if SharedOptions["EnableAimbot"] and win32api.GetAsyncKeyState(SharedOptions["AimbotKey"]) & 0x8000:
 			aimbot.Aimbot_Update(ProcessObject, ClientModuleAddress, SharedOffsets, SharedOptions, ARDUINO_HANDLE=ARDUINO_HANDLE)

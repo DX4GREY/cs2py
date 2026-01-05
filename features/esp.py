@@ -47,7 +47,7 @@ def draw_box(pme, rect_left, rect_top, rect_width, rect_height, color):
 	pme.draw_rectangle_lines(rect_left, rect_top, rect_width, rect_height, color=pme.get_color(color), lineThick=1.0)
 
 
-def ESP_Update(processHandle, clientBaseAddress, Options, Offsets, SharedBombState):
+def ESP_Update(processHandle, clientBaseAddress, Options, Offsets, SharedBombState, SharedSpectatorList):
 	if win32gui.GetWindowText(win32gui.GetForegroundWindow()) != "Counter-Strike 2":
 			pme.end_drawing()
 			return
@@ -186,19 +186,24 @@ def ESP_Update(processHandle, clientBaseAddress, Options, Offsets, SharedBombSta
 			pme.draw_text(bomb_text, 20, y_position + 10, fontSize=font_size, color=text_color)
 
 		if Options["EnableSpectatorList"]:
-			spectator_names = memfuncs.get_spectator_list(processHandle, clientBaseAddress, Offsets, localPlayerEnt_controllerAddress, localPlayerEnt_Team)
-			if spectator_names:
-				font_size = 10.0
-				text_color = pme.get_color("#FFFFFF")
-				background_color = pme.fade_color(pme.get_color("#000000"), 0.6)
+			spectator_names = SharedSpectatorList.get_spectators()
+			
+			font_size = 15.0
+			text_color = pme.get_color("#FFFFFF")
+			background_color = pme.fade_color(pme.get_color("#000000"), 0.6)
 
-				spectator_text = "Spectators:\n" + "\n".join(spectator_names)
-				text_width = pme.measure_text(spectator_text, int(font_size))
-				text_height = (len(spectator_names) + 1) * (font_size + 5)
+			spectator_text = "Spectators:\n" + "\n".join(spectator_names)
+			text_width = pme.measure_text(spectator_text, int(font_size))
+			text_height = (len(spectator_names) + 1) * (font_size + 5)
 
-				pme.draw_rectangle(globals.SCREEN_WIDTH - text_width - 30, 10, text_width + 20, text_height + 15, background_color)
-				pme.draw_text(spectator_text, globals.SCREEN_WIDTH - text_width - 20, 20, fontSize=font_size, color=text_color)
+			background_width = text_width + 20
+			background_height = text_height + 15
 
+			x_position = globals.SCREEN_WIDTH - background_width - 10
+			y_position = 10
+
+			pme.draw_rectangle(x_position, y_position, background_width, background_height, background_color)
+			pme.draw_text(spectator_text, x_position + 10, y_position + 10, fontSize=font_size, color=text_color)
 	except Exception:
 		pass
 	pme.end_drawing()
