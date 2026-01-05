@@ -1,20 +1,7 @@
 ![DHAX](https://raw.githubusercontent.com/DX4GREY/cs2py/main/img/dhax_banner.jpeg)
 
-External CS2 Cheat written in Python3
+DHax is a CS2 External cheats
 > you can find offsets by using this [offset dumper](https://github.com/a2x/cs2-dumper)
-
-## Installation
-
-```
-pip install -r requirements.txt
-```
-> PyMeow is also a dependency, install instructions are [here](https://github.com/qb-0/pyMeow?tab=readme-ov-file#floppy_disk-installation)
-
-## Usage
-
-```
-python main.py
-```
 
 ## Features
 
@@ -30,7 +17,3 @@ python main.py
 - [x] Color Customization  
 - [x] Auto Save Config
 - [x] Spectator Lists
-
-## Credits
-
-> **Big Thanks to [HWYkagiru](https://github.com/HWYkagiru) for the GUI revamp 💖**
