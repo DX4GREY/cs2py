@@ -1,4 +1,4 @@
-![CS2PY](https://raw.githubusercontent.com/DX4GREY/cs2py/main/img/dhax_banner.jpeg)
+![DHAX](https://raw.githubusercontent.com/DX4GREY/cs2py/main/img/dhax_banner.jpeg)
 
 External CS2 Cheat written in Python3
 > you can find offsets by using this [offset dumper](https://github.com/a2x/cs2-dumper)
