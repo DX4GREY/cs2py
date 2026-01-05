@@ -83,13 +83,8 @@ class SpectatorList:
                 team = pw.r_int(self.process, pawn + self.m_iTeamNum)
                 obs_mode = pw.r_int(self.process, obs_services + self.m_iObserverMode)
 
-                mode = "first-person" if obs_mode == 4 else "third-person"
-                entry = f"{name} [{mode}]"
-
-                if team == local_team:
-                    entry += " (team)"
-
-                specs.append(entry)
+                self.debug_log(f"[DEBUG] Player {i}: Name={name}, Team={team}, ObsMode={obs_mode}")
+                specs.append(name)
 
             except Exception as e:
                 self.debug_log(f"[EXCEPTION] Player {i}: {e}")

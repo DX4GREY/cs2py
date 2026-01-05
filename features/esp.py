@@ -200,7 +200,7 @@ def ESP_Update(processHandle, clientBaseAddress, Options, Offsets, SharedBombSta
 			background_height = text_height + 15
 
 			x_position = globals.SCREEN_WIDTH - background_width - 10
-			y_position = 10
+			y_position = globals.SCREEN_HEIGHT // 2 - background_height // 2
 
 			pme.draw_rectangle(x_position, y_position, background_width, background_height, background_color)
 			pme.draw_text(spectator_text, x_position + 10, y_position + 10, fontSize=font_size, color=text_color)
