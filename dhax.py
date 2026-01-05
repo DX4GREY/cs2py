@@ -14,6 +14,7 @@ from features.spectlist import SpectatorList
 
 from GUI import gui_mainloop
 from GUI import gui_util
+from GUI.spectator_renderer import SpectatorRenderer
 
 import multiprocessing
 import threading, time
@@ -24,6 +25,7 @@ import keyboard, os, json
 keyboard.add_hotkey("end", callback=lambda: os._exit(0))
 keyboard.add_hotkey("insert", callback=lambda: gui_util.hide_dpg())
 keyboard.add_hotkey("home", callback=lambda: gui_util.streamproof_toggle())
+renderer = SpectatorRenderer()
 
 class ManagedConfig:
 	def __init__(self, managed_dict, save_function):
@@ -76,6 +78,19 @@ def LoadConfig():
 	else:
 		with open(globals.SAVE_FILE, "r") as fp:
 			globals.CHEAT_SETTINGS = json.load(fp)
+
+def SpectatorDrawThreadFunction(SharedOption):
+	renderer.init()
+	renderer.set_position(x=globals.SCREEN_WIDTH - renderer.width - 20, y=20)
+
+	sl = SpectatorList()
+
+	while not renderer.should_close():
+		spectators = sl.get_spectators()
+
+		renderer.enabled = SharedOption["EnableSpectatorList"]
+		renderer.render(spectators)
+		renderer.poll()
 
 if __name__ == "__main__":
 	win32process.SetPriorityClass(win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, win32api.GetCurrentProcessId()), win32process.HIGH_PRIORITY_CLASS)
@@ -142,10 +157,13 @@ if __name__ == "__main__":
 	discord_rpc_proc.daemon = True
 	discord_rpc_proc.start()
 
-	SharedSpectatorList = SpectatorList()
+	SharedSpectatorList = Manager.Namespace()
+	Spectator_proc = multiprocessing.Process(target=SpectatorDrawThreadFunction, args=(SharedOptions,))
+	Spectator_proc.daemon = True
+	Spectator_proc.start()
 
 	while esp.pme.overlay_loop():
-		esp.ESP_Update(ProcessObject, ClientModuleAddress, SharedOptions, SharedOffsets, SharedBombState, SharedSpectatorList)
+		esp.ESP_Update(ProcessObject, ClientModuleAddress, SharedOptions, SharedOffsets, SharedBombState)
 
 		if SharedOptions["EnableAimbot"] and win32api.GetAsyncKeyState(SharedOptions["AimbotKey"]) & 0x8000:
 			aimbot.Aimbot_Update(ProcessObject, ClientModuleAddress, SharedOffsets, SharedOptions, ARDUINO_HANDLE=ARDUINO_HANDLE)
